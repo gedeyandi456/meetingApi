@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-// Route::group(['prefix' => 'admin','middleware' => ['assign.guard:admins','jwt.auth']],function ()
-// {
-// 	Route::get('/demo','AdminController@demo');	
-// });
+Route::group(['prefix' => 'admin','middleware' => ['assign.guard:admins','api']], function ()
+{
+	Route::get('/me','AdminController@me');	
+});
 
-// Route::group(['prefix' => 'user','middleware' => ['assign.guard:users','jwt.auth']],function ()
-// {
-// 	Route::get('/demo','UserController@demo');	
-// });
+Route::group(['prefix' => 'user','middleware' => ['assign.guard:users','api']], function ()
+{
+	Route::get('/me','UserController@me');	
+});
 
 Route::group([
     'middleware' => 'api',

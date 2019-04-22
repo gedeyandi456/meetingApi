@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function demo()
+    public function me()
     {
-        return response()->json(['message' => 'demo user'], 200);
+        return response()->json(auth('users')->user());
     }
 }

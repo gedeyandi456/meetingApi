@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function demo()
+    public function me()
     {
-        return response()->json(['message' => 'demo admin'], 200);
+        return response()->json(auth('admins')->user());
     }
 }
