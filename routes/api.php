@@ -15,3 +15,7 @@ Route::group(['prefix' => 'user','middleware' => ['assign.guard:users','jwt.auth
 {
 	Route::get('/demo','UserController@demo');	
 });
+
+Route::post('/register', 'AuthController@register');
+Route::post('/login', 'AuthController@login');
+Route::post('/logout', 'AuthController@logout');
