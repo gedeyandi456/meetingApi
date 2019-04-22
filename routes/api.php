@@ -6,16 +6,23 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::group(['prefix' => 'admin','middleware' => ['assign.guard:admins','jwt.auth']],function ()
-{
-	Route::get('/demo','AdminController@demo');	
-});
+// Route::group(['prefix' => 'admin','middleware' => ['assign.guard:admins','jwt.auth']],function ()
+// {
+// 	Route::get('/demo','AdminController@demo');	
+// });
 
-Route::group(['prefix' => 'user','middleware' => ['assign.guard:users','jwt.auth']],function ()
-{
-	Route::get('/demo','UserController@demo');	
-});
+// Route::group(['prefix' => 'user','middleware' => ['assign.guard:users','jwt.auth']],function ()
+// {
+// 	Route::get('/demo','UserController@demo');	
+// });
 
-Route::post('/register', 'AuthController@register');
-Route::post('/login', 'AuthController@login');
-Route::post('/logout', 'AuthController@logout');
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+	Route::post('register', 'AuthController@register');
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+});
