@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 // });
 
 Route::group([
+    'middleware' => 'cors',
     'prefix' => 'auth'
 ], function ($router) {
 	Route::post('register', 'AuthController@register');
