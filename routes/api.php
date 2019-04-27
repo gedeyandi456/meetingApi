@@ -6,23 +6,25 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-// Route::group(['prefix' => 'admin','middleware' => ['assign.guard:admins','api']], function ()
-// {
-// 	Route::get('/me','AdminController@me');	
-// });
-
-// Route::group(['prefix' => 'user','middleware' => ['assign.guard:users','api']], function ()
-// {
-// 	Route::get('/me','UserController@me');	
-// });
 
 Route::group([
     'middleware' => 'cors',
     'prefix' => 'auth'
-], function ($router) {
+], function() {
 	Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+});
+
+
+Route::group(['prefix' => 'admin','middleware' => ['assign.guard:admins','jwt']], function ()
+{
+	Route::get('/me','AdminController@me');	
+});
+
+Route::group(['prefix' => 'user','middleware' => ['assign.guard:users','jwt']], function ()
+{
+	Route::get('/me','UserController@me');	
 });

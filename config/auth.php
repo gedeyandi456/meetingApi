@@ -3,25 +3,21 @@
 return [
 
     'defaults' => [
-        'guard' => 'api',
+        'guard' => 'users',
         'passwords' => 'users',
     ],
 
     'guards' => [
-        'api' => [
+        'users' => [
             'driver' => 'jwt',
             'provider' => 'users',
             'hash' => false,
         ],
 
-        'users' => [
-            'driver' => 'jwt',
-            'provider' => 'users'
-        ],
-
         'admins' => [
             'driver' => 'jwt',
-            'provider' => 'admins'
+            'provider' => 'admins',
+            'hash' => false,
         ],
     ],
 

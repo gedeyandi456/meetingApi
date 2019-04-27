@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Admin;
 use App\User;
 use Illuminate\Http\Request;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -15,12 +16,23 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255|unique:users',
+            'name' => 'required',
+            'password'=> 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
         if($request->category == 'admin') {
             $admin = Admin::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
             ]);
+
             $token = auth()->login($admin);
         } else {
             $user = User::create([
@@ -28,6 +40,7 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
             ]);
+
             $token = auth()->login($user);
         }
     	
@@ -36,10 +49,21 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-    	$credentials = request([
-    		'email',
-    		'password'
-    	]);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password'=> 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $credentials = $request->only(['email', 'password']);
+
+    	// $credentials = request([
+    	// 	'email',
+    	// 	'password'
+    	// ]);
 
         if($request->category == 'admin') {
             $token = auth('admins')->attempt($credentials);
